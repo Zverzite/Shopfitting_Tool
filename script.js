@@ -38,11 +38,12 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // ✅ 1. Draw white INNER AREA first (before bars)
-  ctx.fillStyle = '#f4f4f4'; // light grey for contrast
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#f4f4f4';
   ctx.fillRect(startX, startY, frameW, frameH);
 
-  // ✅ 2. Draw BLACK extrusion bars
   ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
@@ -56,25 +57,25 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // ✅ 3. Draw LABELS LAST so they appear on top
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+  ctx.shadowBlur = 4;
 
-  const labelOffset = ext / 2;
-
-  // Width label (top center)
+  const labelOffset = ext / 2 + 4;
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
-  // Height label (left center, rotated)
   ctx.save();
   ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
 
-  // Calculation details
+  ctx.shadowBlur = 0;
+  ctx.shadowColor = 'transparent';
+
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
