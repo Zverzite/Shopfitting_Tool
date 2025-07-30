@@ -17,7 +17,7 @@ function startDrawing() {
 
 function drawFrame(widthMM, heightMM, jointType) {
   const bgImage = new Image();
-  bgImage.src = 'Background.png'; // or whatever name you saved it as
+  bgImage.src = 'Background.png';
 
   bgImage.onload = function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
