@@ -71,16 +71,18 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // Width label (top)
-  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 20);
+  // Move label outward depending on joint type
+  const labelOffset = jointType === 'mitred' ? ext + 20 : 10;
 
-  // Height label (left side, rotated)
+  // Width label above top bar
+  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
+
+  // Height label to the left of left bar
   ctx.save();
-  ctx.translate(startX - 30, startY + frameH / 2);
+  ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
-
 
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
