@@ -69,7 +69,7 @@
       ctx.font = '14px sans-serif';
       ctx.fillText(`${widthMM} mm`, startX + frameW / 2 - 20, startY - 10); // top label
       ctx.save();
-      ctx.translate(startX - 40, startY + frameH / 2);
+      ctx.translate(Math.max(10, startX - 60), startY + frameH / 2);
       ctx.rotate(-Math.PI / 2);
       ctx.fillText(`${heightMM} mm`, 0, 0); // side label
       ctx.restore();
