@@ -38,8 +38,8 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Draw outer white frame
-  ctx.fillStyle = 'white';
+  // Draw outer black frame
+  ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
     ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
