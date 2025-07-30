@@ -38,7 +38,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Black frame first
+  // Black frame
   ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
@@ -52,11 +52,11 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // White inner rectangle next
+  // White inner area
   ctx.fillStyle = 'white';
   ctx.fillRect(startX, startY, frameW, frameH);
 
-  // Labels drawn LAST so they are on top
+  // Now draw labels on top
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
@@ -74,11 +74,10 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
 
-  // Perimeter calculations
+  // Perimeter values
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
-  // Section lengths
   let topBottomLen, leftRightLen;
   if (jointType === 'mitred') {
     topBottomLen = widthMM;
@@ -104,5 +103,3 @@ function drawFrame(widthMM, heightMM, jointType) {
 }
 
 document.getElementById('submitBtn').addEventListener('click', startDrawing);
-
-
