@@ -8,13 +8,12 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  // Validate input
   if (
     isNaN(width) || isNaN(height) ||
     width < extrusionWidth * 2 + 1 ||
     height < extrusionWidth * 2 + 1
   ) {
-    alert(`Width and Height must be at least ${extrusionWidth * 2 + 1} mm to fit 5mm extrusions and have visible inner space.`);
+    alert(`Width and Height must be at least ${extrusionWidth * 2 + 1} mm.`);
     return;
   }
 
@@ -39,7 +38,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Draw the frame (black outer extrusion parts)
+  // Black frame first
   ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
@@ -53,11 +52,11 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // Draw white inner rectangle
+  // White inner rectangle next
   ctx.fillStyle = 'white';
   ctx.fillRect(startX, startY, frameW, frameH);
 
-  // Labels (draw after white rectangle so they’re on top)
+  // Labels drawn LAST so they are on top
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
@@ -65,17 +64,17 @@ function drawFrame(widthMM, heightMM, jointType) {
 
   const labelOffset = ext + 10;
 
-  // Width label above top bar
+  // Width label (top center)
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
-  // Height label to the left of left bar
+  // Height label (left center, rotated)
   ctx.save();
   ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
 
-  // Perimeters
+  // Perimeter calculations
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
@@ -105,4 +104,5 @@ function drawFrame(widthMM, heightMM, jointType) {
 }
 
 document.getElementById('submitBtn').addEventListener('click', startDrawing);
+
 
