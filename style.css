@@ -35,6 +35,23 @@ canvas {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
+#modal-content button {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#modal-content button:hover {
+  background-color: #0056b3;
+}
+
 
 #details {
   margin-top: 20px;
