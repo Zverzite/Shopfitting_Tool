@@ -20,6 +20,11 @@ function startDrawing() {
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
+  ctx.globalCompositeOperation = 'destination-over';
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = 'source-over'; 
+
 }
 
 function drawFrame(widthMM, heightMM, jointType) {
