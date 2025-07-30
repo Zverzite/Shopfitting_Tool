@@ -8,12 +8,16 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  // Enforce a strict minimum of 11
-  const minFrameSize = 2 * extrusionWidth + 1; 
-if (isNaN(width) || isNaN(height) || width < minFrameSize || height < minFrameSize) {
-  alert(`Width and Height must be at least ${minFrameSize} mm to allow for ${extrusionWidth} mm extrusions on each side.`);
+  // Enforce a strict minimum of 10
+ if (
+  isNaN(width) || isNaN(height) ||
+  width < extrusionWidth * 2 ||
+  height < extrusionWidth * 2
+) {
+  alert(`Width and Height must be at least ${extrusionWidth * 2} mm to fit the extrusions.`);
   return;
 }
+
   
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
@@ -58,7 +62,8 @@ function drawFrame(widthMM, heightMM, jointType) {
   const innerH = frameH - 2 * ext;
   if (innerW > 0 && innerH > 0) {
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX + ext, startY + ext, innerW, innerH);
+  ctx.fillRect(startX + ext, startY + ext,  Math.max(frameW - 2 * ext, 1),  Math.max(frameH - 2 * ext, 1));
+
   }
 
 
