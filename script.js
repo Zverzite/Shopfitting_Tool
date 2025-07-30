@@ -8,15 +8,24 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  // Enforce a strict minimum of 10
- if (
-  isNaN(width) || isNaN(height) ||
-  width < extrusionWidth * 2 ||
-  height < extrusionWidth * 2
-) {
-  alert(`Width and Height must be at least ${extrusionWidth * 2} mm to fit the extrusions.`);
-  return;
+  const extrusionWidth = 5; // must match your global extrusion setting
+  const minSize = extrusionWidth * 2;
+
+  // Check for valid numeric inputs and enforce minimum size
+  if (isNaN(width) || isNaN(height)) {
+    alert('Please enter valid numbers for width and height.');
+    return;
+  }
+
+  if (width <= minSize || height <= minSize) {
+    alert(`Width and Height must be greater than ${minSize} mm to allow for 5mm extrusions on each side.`);
+    return;
+  }
+
+  document.getElementById('modal').style.display = 'none';
+  drawFrame(width, height, jointType);
 }
+
 
   
   document.getElementById('modal').style.display = 'none';
