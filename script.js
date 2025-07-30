@@ -26,7 +26,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   canvas.height = 600;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const padding = 40; // Increased for safe label visibility
+  const padding = 40;
   const scaleX = (canvas.width - 2 * padding) / (widthMM + 2 * extrusionWidth);
   const scaleY = (canvas.height - 2 * padding) / (heightMM + 2 * extrusionWidth);
   const scale = Math.min(scaleX, scaleY);
@@ -38,7 +38,11 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Draw outer black frame
+  // ✅ 1. Draw white INNER AREA first (before bars)
+  ctx.fillStyle = '#f4f4f4'; // light grey for contrast
+  ctx.fillRect(startX, startY, frameW, frameH);
+
+  // ✅ 2. Draw BLACK extrusion bars
   ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
@@ -52,30 +56,25 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  
-   // Inner white area
+  // ✅ 3. Draw LABELS LAST so they appear on top
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX, startY, frameW, frameH);
-
-  // Draw labels LAST and in white
-  ctx.fillStyle = 'white';  // <-- CHANGED to white
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const labelOffset = ext + 10;
+  const labelOffset = ext / 2;
 
-  // Width label 
+  // Width label (top center)
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
-  // Height label
+  // Height label (left center, rotated)
   ctx.save();
   ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
 
-  // Perimeter values
+  // Calculation details
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
