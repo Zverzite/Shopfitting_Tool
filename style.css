@@ -35,6 +35,19 @@ canvas {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
+#modal-content label {
+  font-family: 'Cooper Black', sans-serif; 
+  font-size: 16px; 
+  font-weight: 500; 
+}
+
+#modal-content input,
+#modal-content select {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+}
+
+
 #modal-content button {
   display: block;
   margin: 20px auto 0 auto;
