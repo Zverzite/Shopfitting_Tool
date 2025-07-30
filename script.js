@@ -26,8 +26,8 @@
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Fill background
-  ctx.fillStyle = '#555';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+ ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
   // Compute scale and frame size
   const padding = 20;
