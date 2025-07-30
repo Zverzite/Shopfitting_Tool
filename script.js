@@ -8,33 +8,15 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  const extrusionWidth = 5;
-  const minSize = extrusionWidth * 2;
-
-  if (isNaN(width) || isNaN(height)) {
-    alert('Please enter valid numbers for width and height.');
-    return;
-  }
-
-  if (width <= minSize || height <= minSize) {
-    alert(`Width and Height must be greater than ${minSize} mm to allow for 5mm extrusions on each side.`);
+  // Enforce strict minimums
+  if (isNaN(width) || isNaN(height) || width < 10 || height < 10) {
+    alert('Width and Height must be at least 10 mm to fit 5 mm extrusions on each side.');
     return;
   }
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
 }
-
-
-  document.getElementById('modal').style.display = 'none';
-  drawFrame(width, height, jointType);
-}
-
-  
-  document.getElementById('modal').style.display = 'none';
-  drawFrame(width, height, jointType);
-}
-
 
 function drawFrame(widthMM, heightMM, jointType) {
   canvas.width = window.innerWidth;
@@ -56,13 +38,11 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.fillStyle = 'black';
 
   if (jointType === 'mitred') {
-    // Draw each extrusion as individual bars
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
     ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
     ctx.fillRect(startX - ext, startY, ext, frameH); // Left
     ctx.fillRect(startX + frameW, startY, ext, frameH); // Right
   } else {
-    // Butt joints — only apply horizontal ext to top/bottom
     ctx.fillRect(startX, startY, ext, frameH); // Left
     ctx.fillRect(startX + frameW - ext, startY, ext, frameH); // Right
     ctx.fillRect(startX + ext, startY, frameW - 2 * ext, ext); // Top
@@ -70,17 +50,10 @@ function drawFrame(widthMM, heightMM, jointType) {
   }
 
   // Inner white rectangle
-  const innerW = frameW - 2 * ext;
-  const innerH = frameH - 2 * ext;
-  if (innerW > 0 && innerH > 0) {
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX + ext, startY + ext,  Math.max(frameW - 2 * ext, 1),  Math.max(frameH - 2 * ext, 1));
+  ctx.fillRect(startX + ext, startY + ext, frameW - 2 * ext, frameH - 2 * ext);
 
-  }
-
-
-
-  // Border outline
+  // Outline
   ctx.strokeStyle = 'black';
   ctx.lineWidth = 2;
   ctx.strokeRect(startX, startY, frameW, frameH);
@@ -90,7 +63,6 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.font = '14px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 10);
-
   ctx.save();
   ctx.translate(startX - 10, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
@@ -101,30 +73,27 @@ function drawFrame(widthMM, heightMM, jointType) {
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
   let topBottomLen, leftRightLen;
-
-if (jointType === 'mitred') {
-  topBottomLen = widthMM + 2 * extrusionWidth;
-  leftRightLen = heightMM + 2 * extrusionWidth;
-} else {
-  topBottomLen = widthMM - 2 * extrusionWidth;
-  leftRightLen = heightMM;
-}
+  if (jointType === 'mitred') {
+    topBottomLen = widthMM + 2 * extrusionWidth;
+    leftRightLen = heightMM + 2 * extrusionWidth;
+  } else {
+    topBottomLen = widthMM - 2 * extrusionWidth;
+    leftRightLen = heightMM;
+  }
 
   details.innerHTML = `
-  <table>
-    <tr><th colspan="2">Joint Details</th></tr>
-    <tr><td>Joint Type:</td><td>${jointType}</td></tr>
-    <tr><td>Inner Perimeter:</td><td>${(2 * (widthMM + heightMM)).toFixed(1)} mm</td></tr>
-    <tr><td>Outer Perimeter:</td><td>${(2 * (widthMM + heightMM + 2 * extrusionWidth)).toFixed(1)} mm</td></tr>
-    <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
-    <tr><td>Top:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
-    <tr><td>Bottom:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
-    <tr><td>Left:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
-    <tr><td>Right:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
-  </table>
-`;
-
-  document.addEventListener('DOMContentLoaded', () => { document.getElementById('submitBtn').addEventListener('click', startDrawing);
-});
-
+    <table>
+      <tr><th colspan="2">Joint Details</th></tr>
+      <tr><td>Joint Type:</td><td>${jointType}</td></tr>
+      <tr><td>Inner Perimeter:</td><td>${innerPerimeter.toFixed(1)} mm</td></tr>
+      <tr><td>Outer Perimeter:</td><td>${outerPerimeter.toFixed(1)} mm</td></tr>
+      <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
+      <tr><td>Top:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
+      <tr><td>Bottom:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
+      <tr><td>Left:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
+      <tr><td>Right:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
+    </table>
+  `;
 }
+
+document.getElementById('submitBtn').addEventListener('click', startDrawing);
