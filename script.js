@@ -89,13 +89,14 @@ function drawFrame(widthMM, heightMM, jointType) {
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
   let topBottomLen, leftRightLen;
-  if (jointType === 'mitred') {
-    topBottomLen = widthMM + 2 * extrusionWidth;
-    leftRightLen = heightMM + 2 * extrusionWidth;
-  } else {
-    topBottomLen = widthMM - 2 * extrusionWidth;
-    leftRightLen = heightMM;
-  }
+if (jointType === 'mitred') {
+  topBottomLen = widthMM;
+  leftRightLen = heightMM;
+} else {
+  topBottomLen = widthMM - 2 * extrusionWidth;
+  leftRightLen = heightMM;
+}
+
 
   details.innerHTML = `
     <table>
