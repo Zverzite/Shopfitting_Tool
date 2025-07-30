@@ -27,7 +27,7 @@ canvas {
 }
 
 #modal-content {
-  background-image: url('Background.jpg');
+  background-image: url('assets/images/Background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
