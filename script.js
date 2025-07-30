@@ -70,7 +70,8 @@
      // Labels
       ctx.fillStyle = 'white';
       ctx.font = '14px sans-serif';
-      ctx.fillText(`${widthMM} mm`, startX + frameW / 2 - 20, startY - 10); // top label
+      ctx.textAlign = 'center';
+      ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 10);
       ctx.save();
       ctx.translate(Math.max(10, startX - 60), startY + frameH / 2);
       ctx.rotate(-Math.PI / 2);
