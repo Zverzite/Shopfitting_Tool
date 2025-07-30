@@ -26,7 +26,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   canvas.height = 600;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const padding = 20;
+  const padding = 40; // Increased for safe label visibility
   const scaleX = (canvas.width - 2 * padding) / (widthMM + 2 * extrusionWidth);
   const scaleY = (canvas.height - 2 * padding) / (heightMM + 2 * extrusionWidth);
   const scale = Math.min(scaleX, scaleY);
@@ -38,8 +38,8 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Black frame
-  ctx.fillStyle = 'black';
+  // Draw outer white frame
+  ctx.fillStyle = 'white';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
     ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
@@ -56,13 +56,13 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.fillStyle = 'white';
   ctx.fillRect(startX, startY, frameW, frameH);
 
-  // Now draw labels on top
-  ctx.fillStyle = 'black';
+  // Labels
+  ctx.fillStyle = 'black'; // Draw on top of black frame
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const labelOffset = ext + 10;
+  const labelOffset = ext / 2;
 
   // Width label (top center)
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
