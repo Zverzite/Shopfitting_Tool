@@ -1,74 +1,92 @@
-
-// Reference to DOM elements
-const widthInput = document.getElementById('inputWidth');
-const heightInput = document.getElementById('inputHeight');
-const jointSelect = document.getElementById('jointType');
+const extrusionWidth = 5; // mm
 const canvas = document.getElementById('frameCanvas');
 const ctx = canvas.getContext('2d');
-const detailsDiv = document.getElementById('details');
+const details = document.getElementById('details');
 
 function startDrawing() {
-  const widthMM = parseFloat(widthInput.value);
-  const heightMM = parseFloat(heightInput.value);
-  const jointType = jointSelect.value;
+  const width = parseFloat(document.getElementById('inputWidth').value);
+  const height = parseFloat(document.getElementById('inputHeight').value);
+  const jointType = document.getElementById('jointType').value;
 
-  if (isNaN(widthMM) || isNaN(heightMM) || widthMM <= 0 || heightMM <= 0) {
-    alert('Please enter valid positive dimensions.');
+  if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+    alert('Please enter valid positive numbers.');
     return;
   }
 
-  const scale = 5; // 1 mm = 5 pixels for example
+  document.getElementById('modal').style.display = 'none';
+  drawFrame(width, height, jointType);
+}
+
+function drawFrame(widthMM, heightMM, jointType) {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const padding = 20;
+  const scaleX = (canvas.width - 2 * padding) / (widthMM + 2 * extrusionWidth);
+  const scaleY = (canvas.height - 2 * padding) / (heightMM + 2 * extrusionWidth);
+  const scale = Math.min(scaleX, scaleY);
+
   const frameW = widthMM * scale;
   const frameH = heightMM * scale;
-  const thickness = 5 * scale; // 5 mm thickness on all sides
-
-  canvas.width = frameW + 100;
-  canvas.height = frameH + 100;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const ext = extrusionWidth * scale;
 
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  // Outer Rectangle 
+  // Draw extrusions
   ctx.fillStyle = 'black';
-  ctx.fillRect(startX, startY, frameW, frameH);
-
-  // Inner Rectangle 
-  if (jointType === 'butt') {
-    const innerX = startX + thickness;
-    const innerY = startY + thickness;
-    const innerW = frameW - 2 * thickness;
-    const innerH = frameH - 2 * thickness;
-
-    if (innerW > 0 && innerH > 0) {
-      ctx.clearRect(innerX, innerY, innerW, innerH);
-    }
+  if (jointType === 'mitred') {
+    ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
+    ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
+    ctx.fillRect(startX - ext, startY, ext, frameH); // Left
+    ctx.fillRect(startX + frameW, startY, ext, frameH); // Right
+  } else {
+    ctx.fillRect(startX, startY, ext, frameH); // Left
+    ctx.fillRect(startX + frameW - ext, startY, ext, frameH); // Right
+    ctx.fillRect(startX + ext, startY, frameW - 2 * ext, ext); // Top
+    ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  updateDetails(widthMM, heightMM, jointType);
+  // Draw inner white rectangle
+  ctx.strokeStyle = 'white';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(startX, startY, frameW, frameH);
+
+  // Labels
+  ctx.fillStyle = 'white';
+  ctx.font = '14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 10);
+
+  ctx.save();
+  ctx.translate(startX - 10, startY + frameH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(`${heightMM} mm`, 0, 0);
+  ctx.restore();
+
+  const innerPerimeter = 2 * (widthMM + heightMM);
+  const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
+
+  let topBottomLen, leftRightLen;
+  if (jointType === 'mitred') {
+    topBottomLen = widthMM + 2 * extrusionWidth;
+    leftRightLen = heightMM + 2 * extrusionWidth;
+  } else {
+    topBottomLen = widthMM - 2 * extrusionWidth;
+    leftRightLen = heightMM;
+  }
+
+     details.innerHTML = `
+        <table>
+          <tr><th colspan="2">Joint Details</th></tr>
+          <tr><td>Joint Type:</td><td>${jointType}</td></tr>
+          <tr><td>Inner Perimeter:</td><td>${innerPerimeter} mm</td></tr>
+          <tr><td>Outer Perimeter:</td><td>${outerPerimeter} mm</td></tr>
+          <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
+          <tr><td>Top:</td><td>${topBottomLen} mm</td></tr>
+          <tr><td>Bottom:</td><td>${topBottomLen} mm</td></tr>
+          <tr><td>Left:</td><td>${leftRightLen} mm</td></tr>
+          <tr><td>Right:</td><td>${leftRightLen} mm</td></tr>
+        </table>
 }
-
-function updateDetails(width, height, jointType) {
-  const thickness = 5;
-  const innerPerimeter = 2 * (width - 2 * thickness + height - 2 * thickness);
-  const outerPerimeter = 2 * (width + height);
-  const top = width;
-  const bottom = width;
-  const left = height;
-  const right = height;
-
-  detailsDiv.innerHTML = `
-    <table style="border-collapse: collapse; width: 300px;">
-      <tr><th style="text-align: left;" colspan="2">Joint Type:</th><td>${jointType}</td></tr>
-      <tr><th style="text-align: left;" colspan="2">Inner Perimeter:</th><td>${innerPerimeter} mm</td></tr>
-      <tr><th style="text-align: left;" colspan="2">Outer Perimeter:</th><td>${outerPerimeter} mm</td></tr>
-      <tr><th colspan="3" style="text-align: left; padding-top: 10px;">Section Lengths:</th></tr>
-      <tr><td>Top</td><td colspan="2">${top} mm</td></tr>
-      <tr><td>Bottom</td><td colspan="2">${bottom} mm</td></tr>
-      <tr><td>Left</td><td colspan="2">${left} mm</td></tr>
-      <tr><td>Right</td><td colspan="2">${right} mm</td></tr>
-    </table>
-  `;
-}
-
