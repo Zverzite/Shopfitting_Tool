@@ -52,7 +52,8 @@ function drawFrame(widthMM, heightMM, jointType) {
 
   // Inner white rectangle
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX, startY, frameW, frameH);
+  ctx.fillRect(startX + ext, startY + ext, frameW - 2 * ext, frameH - 2 * ext);
+
 
   // Border outline
   ctx.strokeStyle = 'black';
