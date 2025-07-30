@@ -8,10 +8,9 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  const extrusionWidth = 5; // must match your global extrusion setting
+  const extrusionWidth = 5;
   const minSize = extrusionWidth * 2;
 
-  // Check for valid numeric inputs and enforce minimum size
   if (isNaN(width) || isNaN(height)) {
     alert('Please enter valid numbers for width and height.');
     return;
@@ -26,6 +25,10 @@ function startDrawing() {
   drawFrame(width, height, jointType);
 }
 
+
+  document.getElementById('modal').style.display = 'none';
+  drawFrame(width, height, jointType);
+}
 
   
   document.getElementById('modal').style.display = 'none';
