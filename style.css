@@ -27,15 +27,16 @@ canvas {
 }
 
 #modal-content {
-  background-image: url('assets/images/Background.jpg');
+  background-image: url('Background.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding: 20px;
   border-radius: 5px;
   color: black;
+  width: 300px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
-
 
 #details {
   margin-top: 20px;
