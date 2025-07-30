@@ -14,17 +14,12 @@ function startDrawing() {
     width < extrusionWidth * 2 + 1 ||
     height < extrusionWidth * 2 + 1
   ) {
-    alert(`Width and Height must be at least ${extrusionWidth * 2 + 1} mm to fit 5mm extrusions and have visible inner space.`);
+    alert(Width and Height must be at least ${extrusionWidth * 2 + 1} mm to fit 5mm extrusions and have visible inner space.);
     return;
   }
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
-  ctx.globalCompositeOperation = 'destination-over';
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.globalCompositeOperation = 'source-over'; 
-
 }
 
 function drawFrame(widthMM, heightMM, jointType) {
@@ -69,13 +64,13 @@ function drawFrame(widthMM, heightMM, jointType) {
   const labelOffset = ext + 10; 
   
   // Width label above top bar
-  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
+  ctx.fillText(${widthMM} mm, startX + frameW / 2, startY - labelOffset);
 
   // Height label to the left of left bar
   ctx.save();
   ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
-  ctx.fillText(`${heightMM} mm`, 0, 0);
+  ctx.fillText(${heightMM} mm, 0, 0);
   ctx.restore();
 
 
@@ -92,7 +87,7 @@ if (jointType === 'mitred') {
 }
 
 
-  details.innerHTML = `
+  details.innerHTML = 
     <table>
       <tr><th colspan="2">Joint Details</th></tr>
       <tr><td>Joint Type:</td><td>${jointType}</td></tr>
@@ -104,7 +99,5 @@ if (jointType === 'mitred') {
       <tr><td>Left:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
       <tr><td>Right:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
     </table>
-  `;
+  ;
 }
-
-document.getElementById('submitBtn').addEventListener('click', startDrawing);
