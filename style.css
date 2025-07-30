@@ -27,10 +27,13 @@ canvas {
 }
 
 #modal-content {
-  background: white;
+  background-image: url('Background.jpg');
+  background-size: cover;
+  background-position: center;
   padding: 20px;
   border-radius: 5px;
-}
+  color: black;
+
 
 #details {
   margin-top: 20px;
