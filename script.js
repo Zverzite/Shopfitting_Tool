@@ -20,8 +20,6 @@ function startDrawing() {
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
-
-  ctx.fillStyle = 'black';
 }
 
 function drawFrame(widthMM, heightMM, jointType) {
@@ -41,6 +39,8 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
+  // Draw the frame (black outer extrusion parts)
+  ctx.fillStyle = 'black';
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
     ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
@@ -53,7 +53,11 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // Labels
+  // Draw white inner rectangle
+  ctx.fillStyle = 'white';
+  ctx.fillRect(startX, startY, frameW, frameH);
+
+  // Labels (draw after white rectangle so they’re on top)
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
@@ -71,28 +75,19 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
 
-
+  // Perimeters
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
-    // Draw white inner rectangle first
-  ctx.fillStyle = 'white';
-  ctx.fillRect(startX, startY, frameW, frameH);
-
-  // Then draw black labels on top
-  ctx.fillStyle = 'black';
-  ctx.font = '18px Arial';
-
-
-
+  // Section lengths
   let topBottomLen, leftRightLen;
-if (jointType === 'mitred') {
-  topBottomLen = widthMM;
-  leftRightLen = heightMM;
-} else {
-  topBottomLen = widthMM - 2 * extrusionWidth;
-  leftRightLen = heightMM;
-}
+  if (jointType === 'mitred') {
+    topBottomLen = widthMM;
+    leftRightLen = heightMM;
+  } else {
+    topBottomLen = widthMM - 2 * extrusionWidth;
+    leftRightLen = heightMM;
+  }
 
   details.innerHTML = `
     <table>
@@ -110,3 +105,4 @@ if (jointType === 'mitred') {
 }
 
 document.getElementById('submitBtn').addEventListener('click', startDrawing);
+
