@@ -65,10 +65,12 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.shadowBlur = 4;
 
   const labelOffset = ext / 2 + 4;
-  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
+  // Width label 
+  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - ext - 10);
 
+  // Height label 
   ctx.save();
-  ctx.translate(startX - labelOffset, startY + frameH / 2);
+  ctx.translate(startX - ext - 10, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
