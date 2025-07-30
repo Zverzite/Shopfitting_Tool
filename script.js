@@ -64,14 +64,14 @@
       ctx.lineWidth = 2;
       ctx.strokeRect(startX, startY, frameW, frameH);
 
-      // Labels
+     // Labels
       ctx.fillStyle = 'white';
       ctx.font = '14px sans-serif';
-      ctx.fillText(`${widthMM} mm`, startX + frameW / 2 - 20, startY - 10);
+      ctx.fillText(`${widthMM} mm`, startX + frameW / 2 - 20, startY - 10); // top label
       ctx.save();
       ctx.translate(startX - 40, startY + frameH / 2);
       ctx.rotate(-Math.PI / 2);
-      ctx.fillText(`${heightMM} mm`, 0, 0);
+      ctx.fillText(`${heightMM} mm`, 0, 0); // side label
       ctx.restore();
 
       // Perimeters
