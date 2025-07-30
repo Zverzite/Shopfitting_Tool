@@ -14,8 +14,7 @@ if (isNaN(width) || isNaN(height) || width < minFrameSize || height < minFrameSi
   alert(`Width and Height must be at least ${minFrameSize} mm to allow for ${extrusionWidth} mm extrusions on each side.`);
   return;
 }
-
-
+  
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
 }
@@ -55,8 +54,13 @@ function drawFrame(widthMM, heightMM, jointType) {
   }
 
   // Inner white rectangle
+  const innerW = frameW - 2 * ext;
+  const innerH = frameH - 2 * ext;
+  if (innerW > 0 && innerH > 0) {
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX + ext, startY + ext, frameW - 2 * ext, frameH - 2 * ext);
+  ctx.fillRect(startX + ext, startY + ext, innerW, innerH);
+  }
+
 
 
   // Border outline
