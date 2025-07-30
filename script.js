@@ -75,25 +75,26 @@ function drawFrame(widthMM, heightMM, jointType) {
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
   let topBottomLen, leftRightLen;
-  if (jointType === 'mitred') {
-    topBottomLen = widthMM + 2 * extrusionWidth;
-    leftRightLen = heightMM + 2 * extrusionWidth;
-  } else {
-    topBottomLen = widthMM - 2 * extrusionWidth;
-    leftRightLen = heightMM;
-  }
+
+if (jointType === 'mitred') {
+  topBottomLen = widthMM + 2 * extrusionWidth;
+  leftRightLen = heightMM + 2 * extrusionWidth;
+} else {
+  topBottomLen = widthMM - 2 * extrusionWidth;
+  leftRightLen = heightMM;
+}
 
   details.innerHTML = `
   <table>
     <tr><th colspan="2">Joint Details</th></tr>
     <tr><td>Joint Type:</td><td>${jointType}</td></tr>
-    <tr><td>Inner Perimeter:</td><td>${Math.round(innerPerimeter)} mm</td></tr>
-    <tr><td>Outer Perimeter:</td><td>${Math.round(outerPerimeter)} mm</td></tr>
+    <tr><td>Inner Perimeter:</td><td>${(2 * (widthMM + heightMM)).toFixed(1)} mm</td></tr>
+    <tr><td>Outer Perimeter:</td><td>${(2 * (widthMM + heightMM + 2 * extrusionWidth)).toFixed(1)} mm</td></tr>
     <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
-    <tr><td>Top:</td><td>${Math.round(topBottomLen)} mm</td></tr>
-    <tr><td>Bottom:</td><td>${Math.round(topBottomLen)} mm</td></tr>
-    <tr><td>Left:</td><td>${Math.round(leftRightLen)} mm</td></tr>
-    <tr><td>Right:</td><td>${Math.round(leftRightLen)} mm</td></tr>
+    <tr><td>Top:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
+    <tr><td>Bottom:</td><td>${topBottomLen.toFixed(1)} mm</td></tr>
+    <tr><td>Left:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
+    <tr><td>Right:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
   </table>
 `;
 }
