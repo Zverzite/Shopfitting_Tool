@@ -65,15 +65,14 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.lineWidth = 2;
   ctx.strokeRect(startX, startY, frameW, frameH);
 
-  // Labels
+ // Labels
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // Move label outward depending on joint type
   const labelOffset = ext + 10; 
-
+  
   // Width label above top bar
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
@@ -83,6 +82,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
+
 
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
