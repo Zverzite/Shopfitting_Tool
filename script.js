@@ -78,13 +78,17 @@ function drawFrame(widthMM, heightMM, jointType) {
   }
 
   details.innerHTML = `
-    <strong>Joint Type:</strong> ${jointType}<br>
-    <strong>Inner Perimeter:</strong> ${innerPerimeter} mm<br>
-    <strong>Outer Perimeter:</strong> ${outerPerimeter} mm<br><br>
-    <strong>Section Lengths:</strong><br>
-    Top: ${topBottomLen} mm<br>
-    Bottom: ${topBottomLen} mm<br>
-    Left: ${leftRightLen} mm<br>
-    Right: ${leftRightLen} mm<br>
-  `;
+  <table>
+    <tr><th colspan="2">Joint Details</th></tr>
+    <tr><td>Joint Type:</td><td>${jointType}</td></tr>
+    <tr><td>Inner Perimeter:</td><td>${innerPerimeter} mm</td></tr>
+    <tr><td>Outer Perimeter:</td><td>${outerPerimeter} mm</td></tr>
+    <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
+    <tr><td>Top:</td><td>${topBottomLen} mm</td></tr>
+    <tr><td>Bottom:</td><td>${topBottomLen} mm</td></tr>
+    <tr><td>Left:</td><td>${leftRightLen} mm</td></tr>
+    <tr><td>Right:</td><td>${leftRightLen} mm</td></tr>
+  </table>
+`;
+
 }
