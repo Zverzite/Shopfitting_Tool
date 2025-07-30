@@ -17,65 +17,39 @@ function startDrawing() {
   drawFrame(width, height, jointType);
 }
 
-function drawFrame(widthMM, heightMM, jointType) {
-  // Resize canvas to fit window
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
+function drawFrame(width, height, thickness, jointType) {
+  const canvas = document.getElementById('frameCanvas');
+  const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const padding = 20;
-  const scaleX = (canvas.width - 2 * padding) / (widthMM + 2 * extrusionWidth);
-  const scaleY = (canvas.height - 2 * padding) / (heightMM + 2 * extrusionWidth);
-  const scale = Math.min(scaleX, scaleY);
+  // Scale and position
+  const scale = 2;
+  const offsetX = 50;
+  const offsetY = 50;
 
-  const frameW = widthMM * scale;
-  const frameH = heightMM * scale;
-  const ext = extrusionWidth * scale;
+  const outerW = width * scale;
+  const outerH = height * scale;
+  const t = thickness * scale;
 
-  const startX = (canvas.width - frameW) / 2;
-  const startY = (canvas.height - frameH) / 2;
-
-  ctx.fillStyle = 'black';
-  if (jointType === 'mitred') {
-    ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
-    ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
-    ctx.fillRect(startX - ext, startY, ext, frameH); // Left
-    ctx.fillRect(startX + frameW, startY, ext, frameH); // Right
-  } else {
-    ctx.fillRect(startX, startY, ext, frameH); // Left
-    ctx.fillRect(startX + frameW - ext, startY, ext, frameH); // Right
-    ctx.fillRect(startX + ext, startY, frameW - 2 * ext, ext); // Top
-    ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
+  // Clamp
+  if (outerW <= 2 * t || outerH <= 2 * t) {
+    alert("Width and Height must be greater than " + (2 * thickness) + "mm");
+    return;
   }
 
-  ctx.strokeStyle = 'white';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(startX, startY, frameW, frameH);
+  ctx.fillStyle = "#000"; // Black frame
 
-  ctx.fillStyle = 'white';
-  ctx.font = '14px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 10);
+  // Draw sides as rectangles
+  // Top
+  ctx.fillRect(offsetX, offsetY, outerW, t);
+  // Bottom
+  ctx.fillRect(offsetX, offsetY + outerH - t, outerW, t);
+  // Left
+  ctx.fillRect(offsetX, offsetY + t, t, outerH - 2 * t);
+  // Right
+  ctx.fillRect(offsetX + outerW - t, offsetY + t, t, outerH - 2 * t);
+}
 
-  ctx.save();
-  ctx.translate(startX - 10, startY + frameH / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.textAlign = 'center';
-  ctx.fillText(`${heightMM} mm`, 0, 0);
-  ctx.restore();
-
-  const innerPerimeter = 2 * (widthMM + heightMM);
-  const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
-
-  let topBottomLen, leftRightLen;
-  if (jointType === 'mitred') {
-    topBottomLen = widthMM + 2 * extrusionWidth;
-    leftRightLen = heightMM + 2 * extrusionWidth;
-  } else {
-    topBottomLen = widthMM - 2 * extrusionWidth;
-    leftRightLen = heightMM;
-  }
 
   details.innerHTML = `
   <table>
