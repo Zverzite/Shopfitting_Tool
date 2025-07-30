@@ -39,8 +39,6 @@ function drawFrame(widthMM, heightMM, jointType) {
   const startX = (canvas.width - frameW) / 2;
   const startY = (canvas.height - frameH) / 2;
 
-  ctx.fillStyle = 'black';
-
   if (jointType === 'mitred') {
     ctx.fillRect(startX - ext, startY - ext, frameW + 2 * ext, ext); // Top
     ctx.fillRect(startX - ext, startY + frameH, frameW + 2 * ext, ext); // Bottom
@@ -54,7 +52,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   }
 
  // Labels
-  ctx.fillStyle = 'white';  // <-- Make text visible
+  ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
