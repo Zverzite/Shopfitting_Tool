@@ -75,9 +75,14 @@ function drawFrame(widthMM, heightMM, jointType) {
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
-  // Draw white inner rectangle
+    // Draw white inner rectangle first
   ctx.fillStyle = 'white';
   ctx.fillRect(startX, startY, frameW, frameH);
+
+  // Then draw black labels on top
+  ctx.fillStyle = 'black';
+  ctx.font = '18px Arial';
+
 
 
   let topBottomLen, leftRightLen;
@@ -103,7 +108,5 @@ if (jointType === 'mitred') {
     </table>
   `;
 }
-
-document.getElementById('submitBtn').addEventListener('click', startDrawing);
 
 document.getElementById('submitBtn').addEventListener('click', startDrawing);
