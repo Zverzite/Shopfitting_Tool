@@ -8,9 +8,13 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  // Enforce strict minimums
-  if (isNaN(width) || isNaN(height) || width < 10 || height < 10) {
-    alert('Width and Height must be at least 10 mm to fit 5 mm extrusions on each side.');
+  // Validate input
+  if (
+    isNaN(width) || isNaN(height) ||
+    width < extrusionWidth * 2 + 1 ||
+    height < extrusionWidth * 2 + 1
+  ) {
+    alert(`Width and Height must be at least ${extrusionWidth * 2 + 1} mm to fit 5mm extrusions and have visible inner space.`);
     return;
   }
 
@@ -51,7 +55,10 @@ function drawFrame(widthMM, heightMM, jointType) {
 
   // Inner white rectangle
   ctx.fillStyle = 'white';
-  ctx.fillRect(startX + ext, startY + ext, frameW - 2 * ext, frameH - 2 * ext);
+  const innerW = Math.max(frameW - 2 * ext, 0);
+  const innerH = Math.max(frameH - 2 * ext, 0);
+  ctx.fillRect(startX + ext, startY + ext, innerW, innerH);
+
 
   // Outline
   ctx.strokeStyle = 'black';
