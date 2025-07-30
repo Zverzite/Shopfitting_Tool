@@ -58,6 +58,9 @@
         // Bottom horizontal
         ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext);
       }
+      // Center interal rectangle
+      const startX = (canvas.width - frameW) / 2;
+      const startY = (canvas.height - frameH) / 2;
 
       // Draw internal rectangle
       ctx.strokeStyle = 'white';
