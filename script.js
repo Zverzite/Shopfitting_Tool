@@ -51,11 +51,12 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
- // Labels
-  ctx.fillStyle = 'black';
+  // Labels
+  ctx.fillStyle = 'white';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+
 
   const labelOffset = ext + 10;
 
