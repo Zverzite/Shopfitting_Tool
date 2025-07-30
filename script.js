@@ -77,16 +77,18 @@ function drawFrame(widthMM, heightMM, jointType) {
     leftRightLen = heightMM;
   }
 
-     details.innerHTML = `
-        <table>
-          <tr><th colspan="2">Joint Details</th></tr>
-          <tr><td>Joint Type:</td><td>${jointType}</td></tr>
-          <tr><td>Inner Perimeter:</td><td>${innerPerimeter} mm</td></tr>
-          <tr><td>Outer Perimeter:</td><td>${outerPerimeter} mm</td></tr>
-          <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
-          <tr><td>Top:</td><td>${topBottomLen} mm</td></tr>
-          <tr><td>Bottom:</td><td>${topBottomLen} mm</td></tr>
-          <tr><td>Left:</td><td>${leftRightLen} mm</td></tr>
-          <tr><td>Right:</td><td>${leftRightLen} mm</td></tr>
-        </table>
+       details.innerHTML = `
+    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
+      <tr><th colspan="2">Joint Details</th></tr>
+      <tr><td>Joint Type:</td><td>${jointType}</td></tr>
+      <tr><td>Inner Perimeter:</td><td>${innerPerimeter} mm</td></tr>
+      <tr><td>Outer Perimeter:</td><td>${outerPerimeter} mm</td></tr>
+      <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
+      <tr><td>Top:</td><td>${topBottomLen} mm</td></tr>
+      <tr><td>Bottom:</td><td>${topBottomLen} mm</td></tr>
+      <tr><td>Left:</td><td>${leftRightLen} mm</td></tr>
+      <tr><td>Right:</td><td>${leftRightLen} mm</td></tr>
+    </table>
+  `;
+
 }
