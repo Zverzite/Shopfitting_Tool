@@ -23,8 +23,8 @@ function startDrawing() {
 }
 
 function drawFrame(widthMM, heightMM, jointType) {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = 600;
+  canvas.height = 600;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const padding = 20;
