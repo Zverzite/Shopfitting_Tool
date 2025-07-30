@@ -53,12 +53,6 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // Inner white rectangle
-  ctx.fillStyle = 'white';
-  const innerW = Math.max(frameW - 2 * ext, 0);
-  const innerH = Math.max(frameH - 2 * ext, 0);
-  ctx.fillRect(startX + ext, startY + ext, innerW, innerH);
-
  // Labels
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
