@@ -72,7 +72,8 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.textBaseline = 'middle';
 
   // Move label outward depending on joint type
-  const labelOffset = jointType === 'mitred' ? ext + 20 : 10;
+  const labelOffset = 15;
+
 
   // Width label above top bar
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
