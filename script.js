@@ -52,17 +52,19 @@ function drawFrame(widthMM, heightMM, jointType) {
     ctx.fillRect(startX + ext, startY + frameH - ext, frameW - 2 * ext, ext); // Bottom
   }
 
-  // White inner area
+  
+   // Inner white area
   ctx.fillStyle = 'white';
   ctx.fillRect(startX, startY, frameW, frameH);
 
-  // Labels
-  ctx.fillStyle = 'black'; // Draw on top of black frame
+  // Draw labels LAST and in white
+  ctx.fillStyle = 'white';  // <-- CHANGED to white
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
   const labelOffset = ext + 10;
+
   // Width label 
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
