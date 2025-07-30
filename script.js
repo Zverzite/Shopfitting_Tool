@@ -8,14 +8,19 @@ function startDrawing() {
   const height = parseFloat(document.getElementById('inputHeight').value);
   const jointType = document.getElementById('jointType').value;
 
-  if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
-    alert('Please enter valid positive numbers.');
+  // Enforce a strict minimum of 11
+  if (
+    isNaN(width) || isNaN(height) ||
+    width < 11 || height < 11
+  ) {
+    alert('Width and Height must be at least 10 mm to allow for 5 mm extrusions on each side.');
     return;
   }
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
 }
+
 
 function drawFrame(widthMM, heightMM, jointType) {
   canvas.width = window.innerWidth;
