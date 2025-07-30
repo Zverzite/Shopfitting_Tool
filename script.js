@@ -62,12 +62,11 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  const labelOffset = ext / 2;
-
-  // Width label (top center)
+  const labelOffset = ext + 10;
+  // Width label 
   ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - labelOffset);
 
-  // Height label (left center, rotated)
+  // Height label
   ctx.save();
   ctx.translate(startX - labelOffset, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
