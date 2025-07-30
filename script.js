@@ -86,6 +86,8 @@ if (jointType === 'mitred') {
   leftRightLen = heightMM;
 }
 
+  ctx.fillStyle = 'white';
+  ctx.fillRect(startX, startY, frameW, frameH);
 
   details.innerHTML = `
     <table>
