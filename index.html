@@ -11,14 +11,25 @@
   <div id="modal">
     <div id="modal-content">
       <h3>Enter Dimensions (mm)</h3>
-      <label>Width: <input type="number" id="inputWidth"></label><br><br>
-      <label>Height: <input type="number" id="inputHeight"></label><br><br>
-      <label>Joint Type: 
-        <select id="jointType">
-          <option value="mitred">Mitred</option>
-          <option value="butt">Butt</option>
-        </select>
-      </label><br><br>
+      <div>
+  <label for="inputWidth">Width:</label>
+  <input type="number" id="inputWidth" min="1" step="1" />
+</div>
+<br>
+<div>
+  <label for="inputHeight">Height:</label>
+  <input type="number" id="inputHeight" min="1" step="1" />
+</div>
+<br>
+<div>
+  <label for="jointType">Joint Type:</label>
+  <select id="jointType">
+    <option value="mitred">Mitred</option>
+    <option value="butt">Butt</option>
+  </select>
+</div>
+<br>
+
       <button type="button" id="submitBtn" onclick="startDrawing()">Submit</button>
     </div>
   </div>
