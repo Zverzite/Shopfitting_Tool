@@ -9,13 +9,12 @@ function startDrawing() {
   const jointType = document.getElementById('jointType').value;
 
   // Enforce a strict minimum of 11
-  if (
-    isNaN(width) || isNaN(height) ||
-    width < 11 || height < 11
-  ) {
-    alert('Width and Height must be at least 10 mm to allow for 5 mm extrusions on each side.');
-    return;
-  }
+  const minFrameSize = 2 * extrusionWidth + 1; 
+if (isNaN(width) || isNaN(height) || width < minFrameSize || height < minFrameSize) {
+  alert(`Width and Height must be at least ${minFrameSize} mm to allow for ${extrusionWidth} mm extrusions on each side.`);
+  return;
+}
+
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
