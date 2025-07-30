@@ -20,6 +20,8 @@ function startDrawing() {
 
   document.getElementById('modal').style.display = 'none';
   drawFrame(width, height, jointType);
+
+  ctx.fillStyle = 'black';
 }
 
 function drawFrame(widthMM, heightMM, jointType) {
@@ -52,11 +54,10 @@ function drawFrame(widthMM, heightMM, jointType) {
   }
 
   // Labels
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-
 
   const labelOffset = ext + 10;
 
@@ -69,6 +70,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
+
 
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
