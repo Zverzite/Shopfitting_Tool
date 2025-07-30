@@ -123,4 +123,8 @@ if (jointType === 'mitred') {
     <tr><td>Right:</td><td>${leftRightLen.toFixed(1)} mm</td></tr>
   </table>
 `;
+
+  document.addEventListener('DOMContentLoaded', () => { document.getElementById('submitBtn').addEventListener('click', startDrawing);
+});
+
 }
