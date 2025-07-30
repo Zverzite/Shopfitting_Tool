@@ -73,6 +73,11 @@ function drawFrame(widthMM, heightMM, jointType) {
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
 
+  // Draw white inner rectangle
+  ctx.fillStyle = 'white';
+  ctx.fillRect(startX, startY, frameW, frameH);
+
+
   let topBottomLen, leftRightLen;
 if (jointType === 'mitred') {
   topBottomLen = widthMM;
