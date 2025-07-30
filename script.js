@@ -67,14 +67,20 @@ function drawFrame(widthMM, heightMM, jointType) {
 
   // Labels
   ctx.fillStyle = 'black';
-  ctx.font = '14px sans-serif';
+  ctx.font = '18px Arial';
   ctx.textAlign = 'center';
-  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 10);
+  ctx.textBaseline = 'middle';
+
+  // Width label (top)
+  ctx.fillText(`${widthMM} mm`, startX + frameW / 2, startY - 20);
+
+  // Height label (left side, rotated)
   ctx.save();
-  ctx.translate(startX - 10, startY + frameH / 2);
+  ctx.translate(startX - 30, startY + frameH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText(`${heightMM} mm`, 0, 0);
   ctx.restore();
+
 
   const innerPerimeter = 2 * (widthMM + heightMM);
   const outerPerimeter = 2 * (widthMM + heightMM + 2 * extrusionWidth);
