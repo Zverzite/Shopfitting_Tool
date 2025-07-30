@@ -26,7 +26,7 @@ function drawFrame(widthMM, heightMM, jointType) {
   canvas.width = 600;
   canvas.height = 600;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#f5f5f5'; 
+  ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const padding = 20;
