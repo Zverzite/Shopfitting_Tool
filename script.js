@@ -59,12 +59,6 @@ function drawFrame(widthMM, heightMM, jointType) {
   const innerH = Math.max(frameH - 2 * ext, 0);
   ctx.fillRect(startX + ext, startY + ext, innerW, innerH);
 
-
-  // Outline
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(startX, startY, frameW, frameH);
-
  // Labels
   ctx.fillStyle = 'black';
   ctx.font = '18px Arial';
