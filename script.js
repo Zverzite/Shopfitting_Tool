@@ -26,8 +26,6 @@ function drawFrame(widthMM, heightMM, jointType) {
   canvas.width = 600;
   canvas.height = 600;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'black';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const padding = 20;
   const scaleX = (canvas.width - 2 * padding) / (widthMM + 2 * extrusionWidth);
@@ -86,9 +84,6 @@ if (jointType === 'mitred') {
   leftRightLen = heightMM;
 }
 
-  ctx.fillStyle = 'white';
-  ctx.fillRect(startX, startY, frameW, frameH);
-
   details.innerHTML = `
     <table>
       <tr><th colspan="2">Joint Details</th></tr>
@@ -103,5 +98,7 @@ if (jointType === 'mitred') {
     </table>
   `;
 }
+
+document.getElementById('submitBtn').addEventListener('click', startDrawing);
 
 document.getElementById('submitBtn').addEventListener('click', startDrawing);
