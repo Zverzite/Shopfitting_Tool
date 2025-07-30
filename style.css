@@ -65,6 +65,24 @@ canvas {
   background-color: #0056b3;
 }
 
+table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 300px;
+  border: 2px solid black; /* outer border */
+}
+
+table th, table td {
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid #000; /* cell borders */
+}
+
+table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
 
 #details {
   margin-top: 20px;
