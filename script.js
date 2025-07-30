@@ -1,68 +1,74 @@
-const extrusionWidth = 5; // mm
+
+// Reference to DOM elements
+const widthInput = document.getElementById('inputWidth');
+const heightInput = document.getElementById('inputHeight');
+const jointSelect = document.getElementById('jointType');
 const canvas = document.getElementById('frameCanvas');
 const ctx = canvas.getContext('2d');
-const details = document.getElementById('details');
+const detailsDiv = document.getElementById('details');
 
 function startDrawing() {
-  const width = parseFloat(document.getElementById('inputWidth').value);
-  const height = parseFloat(document.getElementById('inputHeight').value);
-  const jointType = document.getElementById('jointType').value;
+  const widthMM = parseFloat(widthInput.value);
+  const heightMM = parseFloat(heightInput.value);
+  const jointType = jointSelect.value;
 
-  if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
-    alert('Please enter valid positive numbers.');
+  if (isNaN(widthMM) || isNaN(heightMM) || widthMM <= 0 || heightMM <= 0) {
+    alert('Please enter valid positive dimensions.');
     return;
   }
 
-  document.getElementById('modal').style.display = 'none';
-  drawFrame(width, height, jointType);
-}
+  const scale = 5; // 1 mm = 5 pixels for example
+  const frameW = widthMM * scale;
+  const frameH = heightMM * scale;
+  const thickness = 5 * scale; // 5 mm thickness on all sides
 
-function drawFrame(width, height, thickness, jointType) {
-  const canvas = document.getElementById('frameCanvas');
-  const ctx = canvas.getContext('2d');
+  canvas.width = frameW + 100;
+  canvas.height = frameH + 100;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Scale and position
-  const scale = 2;
-  const offsetX = 50;
-  const offsetY = 50;
+  const startX = (canvas.width - frameW) / 2;
+  const startY = (canvas.height - frameH) / 2;
 
-  const outerW = width * scale;
-  const outerH = height * scale;
-  const t = thickness * scale;
+  // Outer Rectangle 
+  ctx.fillStyle = 'black';
+  ctx.fillRect(startX, startY, frameW, frameH);
 
-  // Clamp
-  if (outerW <= 2 * t || outerH <= 2 * t) {
-    alert("Width and Height must be greater than " + (2 * thickness) + "mm");
-    return;
+  // Inner Rectangle 
+  if (jointType === 'butt') {
+    const innerX = startX + thickness;
+    const innerY = startY + thickness;
+    const innerW = frameW - 2 * thickness;
+    const innerH = frameH - 2 * thickness;
+
+    if (innerW > 0 && innerH > 0) {
+      ctx.clearRect(innerX, innerY, innerW, innerH);
+    }
   }
 
-  ctx.fillStyle = "#000"; // Black frame
-
-  // Draw sides as rectangles
-  // Top
-  ctx.fillRect(offsetX, offsetY, outerW, t);
-  // Bottom
-  ctx.fillRect(offsetX, offsetY + outerH - t, outerW, t);
-  // Left
-  ctx.fillRect(offsetX, offsetY + t, t, outerH - 2 * t);
-  // Right
-  ctx.fillRect(offsetX + outerW - t, offsetY + t, t, outerH - 2 * t);
+  updateDetails(widthMM, heightMM, jointType);
 }
 
+function updateDetails(width, height, jointType) {
+  const thickness = 5;
+  const innerPerimeter = 2 * (width - 2 * thickness + height - 2 * thickness);
+  const outerPerimeter = 2 * (width + height);
+  const top = width;
+  const bottom = width;
+  const left = height;
+  const right = height;
 
-  details.innerHTML = `
-  <table>
-    <tr><th colspan="2">Joint Details</th></tr>
-    <tr><td>Joint Type:</td><td>${jointType}</td></tr>
-    <tr><td>Inner Perimeter:</td><td>${innerPerimeter} mm</td></tr>
-    <tr><td>Outer Perimeter:</td><td>${outerPerimeter} mm</td></tr>
-    <tr><th colspan="2" style="padding-top: 10px;">Section Lengths</th></tr>
-    <tr><td>Top:</td><td>${topBottomLen} mm</td></tr>
-    <tr><td>Bottom:</td><td>${topBottomLen} mm</td></tr>
-    <tr><td>Left:</td><td>${leftRightLen} mm</td></tr>
-    <tr><td>Right:</td><td>${leftRightLen} mm</td></tr>
-  </table>
-`;
-
+  detailsDiv.innerHTML = `
+    <table style="border-collapse: collapse; width: 300px;">
+      <tr><th style="text-align: left;" colspan="2">Joint Type:</th><td>${jointType}</td></tr>
+      <tr><th style="text-align: left;" colspan="2">Inner Perimeter:</th><td>${innerPerimeter} mm</td></tr>
+      <tr><th style="text-align: left;" colspan="2">Outer Perimeter:</th><td>${outerPerimeter} mm</td></tr>
+      <tr><th colspan="3" style="text-align: left; padding-top: 10px;">Section Lengths:</th></tr>
+      <tr><td>Top</td><td colspan="2">${top} mm</td></tr>
+      <tr><td>Bottom</td><td colspan="2">${bottom} mm</td></tr>
+      <tr><td>Left</td><td colspan="2">${left} mm</td></tr>
+      <tr><td>Right</td><td colspan="2">${right} mm</td></tr>
+    </table>
+  `;
 }
+
